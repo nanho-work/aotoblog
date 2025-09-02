@@ -1,0 +1,78 @@
+# ---- Python 기본 ----
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+*.egg
+.Python
+
+# ---- 가상환경 ----
+venv/
+.venv/
+env/
+ENV/
+
+# ---- 빌드/배포 산출물 (PyInstaller 등) ----
+build/
+dist/
+*.spec
+
+# ---- 로그/캐시 ----
+*.log
+logs/
+.cache/
+.tmp/
+.tmp*/
+
+# ---- 환경 변수 & 비밀키 ----
+.env
+.env.*
+*.env
+secrets.json
+
+# ---- 편집기/IDE ----
+.vscode/
+*.code-workspace
+.idea/
+
+# ---- OS 잡파일 ----
+.DS_Store
+Thumbs.db
+
+# ---- 앱/실행 중 생성되는 데이터 ----
+chrome_profile/            # 프로젝트 내부 크롬 사용자 데이터 디렉토리 전체 무시
+chrome_profile/**
+
+selenium_screenshots/      # 실패시 스크린샷 저장 폴더로 쓰면 편해요
+downloads/                 # 자동 다운로드 폴더 쓰는 경우
+cache/                     # 임시 캐시 폴더 쓰는 경우
+
+# ---- WebDriver / webdriver-manager 캐시(프로젝트에 둘 때) ----
+webdriver/
+webdriver_cache/
+.wdm/
+
+# ---- 노트북(사용 시) ----
+.ipynb_checkpoints/
+
+# ---- 기타(원하지 않는 바이너리/대용량 파일) ----
+*.sqlite*
+*.db
+*.bin
+
+# macOS 사용자 홈 디렉토리 전체 무시
+/Users/**
+**/Users/**
+
+# macOS Chrome Application Support 경로 무시
+**/Application Support/Google/Chrome/**
+
+# ---- 추가 안전망: macOS 사용자 프로필 전체 무시 ----
+/Users/choenamho/**
+**/Users/choenamho/**
+
+# ---- 최종 안전망: 모든 chrome_profile 경로 무시 ----
+**/chrome_profile/**
+**/Chrome/User Data/**

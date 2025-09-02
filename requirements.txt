@@ -1,0 +1,6 @@
+PyQt6
+selenium
+webdriver-manager
+openai
+python-dotenv
+requests

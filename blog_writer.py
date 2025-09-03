@@ -82,7 +82,7 @@ def post_to_tistory(title, content, tags=""):
     driver.find_element(By.ID, "publish-btn").click()
 
     time.sleep(5)
-    driver.quit()
+   # driver.quit()
 
 #if __name__ == "__main__":
 #    title = "자동화 테스트 제목"

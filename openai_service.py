@@ -2,35 +2,61 @@ import os
 import json
 from openai import OpenAI
 from dotenv import load_dotenv
+from search_service import search_and_summarize
 
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def generate_post(topic: str) -> dict:
+    summarized_context = search_and_summarize(topic)
+
     prompt = f"""
-    주제: {topic}
+        주제: {topic}
+        아래는 검색을 통해 요약된 참고 내용입니다:
+        {summarized_context}
 
-    아래 조건을 반드시 따라 JSON 형식으로만 답변해. 절대 다른 설명이나 불필요한 텍스트는 넣지 마.
+        아래 조건을 반드시 따라 JSON 형식으로만 답변해. 절대 다른 설명이나 불필요한 텍스트는 넣지 마.
 
-    {{
-    "title": "SEO 친화적이고 독자가 클릭하고 싶게 만드는 제목 (70자 이내)",
-    "content": "본문 (5000~6000자 분량, 반드시 마크다운 형식)\\n\\n"
-                "# 도입부\\n"
-                "- 독자의 관심을 끌고 주제를 명확히 소개\\n\\n"
-                "## 본문\\n"
-                "- 3~5개 소제목(H2)을 사용\\n"
-                "- 각 소제목 하위에는 구체적인 설명과 예시 포함\\n"
-                "- 필요 시 **리스트**나 `코드 블록`을 활용하여 가독성 강화\\n\\n"
-                "## 결론\\n"
-                "- 핵심 요약 후 질문형으로 마무리하여 독자의 참여(댓글 유도)를 유도\\n\\n"
-                "- 문단은 3~5문장 단위로 끊어 가독성 강화",
-    "tags": [
-        "SEO 키워드 기반 태그 10개 (주제와 직접 관련된 핵심 키워드)"
-    ]
-    }}
-    """
+        {{
+        "title": "SEO 친화적이고 독자가 클릭하고 싶게 만드는 제목 (70자 이내)",
+        "content": "본문 (최종적으로 5000~6000자, 반드시 마크다운 형식)\\n"
+                    "아래 지침을 추가로 따를 것:\\n"
+                    "1. 한 번에 약 2000자 분량씩 3회에 걸쳐 작성한다고 생각하고 글을 이어나갈 것.\\n"
+                    "2. 중간에 끊기지 않도록 자연스럽게 연결하고, 반복 표현은 피할 것.\\n"
+                    "3. 글의 총합은 반드시 5000~6000자가 되도록 맞출 것.\\n\\n"
+                    "도입부\\n"
+                    "- 독자의 관심을 끌고 주제를 명확히 소개\\n\\n"
+                    "## 본문\\n"
+                    "- 3~5개 소제목(H2)을 사용\\n"
+                    "- 각 소제목 하위에는 구체적인 설명과 예시 포함\\n"
+                    "- 필요 시 **리스트**나 `코드 블록`을 활용하여 가독성 강화\\n\\n"
+                    "## 결론\\n"
+                    "- 핵심 요약 후 질문형으로 마무리하여 독자의 참여(댓글 유도)를 유도\\n\\n"
+                    "- 문단은 3~5문장 단위로 끊어 가독성 강화\\n\\n"
+                    "- Think about it step by step\\n\\n"
+                    "글은 블로그 글처럼 깔끔하고 정리되게 작성. 불필요한 반복이나 군더더기 문장은 금지.\\n"
+                    "한 문장은 20단어 이내로 제한, 짧고 간결하게 작성.\\n"
+                    "소제목(H2/H3)은 직관적으로 작성하고, 적절히 이모지를 활용할 것.\\n"
+                    "본문은 2~4문장 단위 문단으로 끊고, 중요한 내용은 번호 리스트(1. 2. 3.) 또는 불릿(•)으로 정리.\\n"
+                    "필요시 간단한 마크다운 표를 활용 가능.\\n"
+                    "내용 전환이나 분위기 구분이 필요할 때는 마크다운 구분선(---)을 적절히 활용.\\n"
+                    "‘도입부/본문/결론’, ‘이 글에서는’ 같은 메타 표현 금지.\\n"
+                    "마지막 문단은 한두 문장으로 정리 후 질문형으로 마무리.\\n"
+                    "블로그 글처럼 자연스럽고 대화하듯, 친근한 존댓말.\\n"
+                    "한비야 작가와 같은 구어체 톤 사용.\\n"
+                    "과한 격언/광고 톤 금지, 실용과 사례 중심.\\n"
+                    "SEO 키워드는 3~5회 자연스럽게 반복 (남용 금지).\\n"
+                    "최신 흐름, 사례, 간단한 데이터 반영 (출처는 일반 문장으로 언급).\\n"
+                    "마지막 문단은 독자가 댓글로 참여하고 싶게 만드는 질문형 문장으로 마무리.\\n",
+        "tags": [
+            "SEO 키워드 기반 태그 10개 (주제와 직접 관련된 핵심 키워드)"
+        ]
+        }}
+        """
+    model_name = "gpt-4o"
+
     response = client.chat.completions.create(
-        model="gpt-4o-mini",
+        model=model_name,
         messages=[{"role": "user", "content": prompt}]
     )
 
@@ -57,3 +83,13 @@ def generate_post(topic: str) -> dict:
         "content": content_json.get("content", ""),
         "tags": content_json.get("tags", [])
     }
+
+    
+def summarize_text(text: str) -> str:
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "user", "content": f"다음 내용을 간결하게 요약해줘:\n\n{text}"}
+        ]
+    )
+    return response.choices[0].message.content.strip()

@@ -16,6 +16,7 @@ def generate_post(topic: str) -> dict:
         {summarized_context}
 
         아래 조건을 반드시 따라 JSON 형식으로만 답변해. 절대 다른 설명이나 불필요한 텍스트는 넣지 마.
+        넌 코드, 프로그램, 개발 관련 교육하는 강사야
 
         {{
         "title": "SEO 친화적이고 독자가 클릭하고 싶게 만드는 제목 (70자 이내)",

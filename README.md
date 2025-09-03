@@ -25,6 +25,7 @@ pip install -r requirements.txt
 pip install openai selenium python-dotenv webdriver-manager
 ```
 
+
 ### 4. 환경 변수 설정
 `.env` 파일을 프로젝트 루트에 생성 후 아래 항목 입력:
 ```
@@ -32,6 +33,20 @@ OPENAI_API_KEY=sk-xxxxxxx
 TISTORY_ID=your_tistory_id
 TISTORY_PW=your_tistory_password
 ```
+
+### 4-1. OpenAI 모델 설정
+`openai_service.py` 내부에서 사용하는 모델은 기본적으로 `gpt-4o` 로 설정되어 있습니다:
+
+```python
+model_name = "gpt-4o"
+```
+
+- **gpt-4o 모델 특징**
+  - 가격: 1K 입력 토큰당 $0.005, 출력 토큰당 $0.015 (2025년 기준)
+  - 성능: GPT-4 계열 중 가장 빠르고 경량화된 모델로, 짧은 응답 시간과 안정적인 품질 제공
+  - 추천 사용 사례: 블로그 포스팅, 코드 보조, 대화형 응답 등
+
+필요에 따라 `gpt-4o-mini` 등 다른 모델로 교체 가능합니다.
 
 ### 5. 실행
 ```bash

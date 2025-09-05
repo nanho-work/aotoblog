@@ -11,7 +11,7 @@ load_dotenv()
 TISTORY_ID = os.getenv("TISTORY_ID")   # 카카오 계정 (이메일 or 전화번호)
 TISTORY_PW = os.getenv("TISTORY_PW")   # 카카오 비밀번호
 
-def post_to_tistory(title, content, tags=""):
+def post_to_tistory(title, content, tags="", blog_url="itstory05"):
     service = Service(ChromeDriverManager().install())
     options = webdriver.ChromeOptions()
     options.add_argument('user-data-dir="/Users/choenamho/Library/Application Support/Google/Chrome"')
@@ -38,7 +38,7 @@ def post_to_tistory(title, content, tags=""):
     time.sleep(3)
 
     # ✅ 글쓰기 페이지로 이동
-    driver.get("https://itstory05.tistory.com/manage/newpost")
+    driver.get(f"https://{blog_url}.tistory.com/manage/newpost")
     time.sleep(3)
 
     # 에디터 모드 드롭다운 클릭 후 '마크다운' 선택

@@ -56,7 +56,6 @@ def post_to_tistory(title, content, tags="", blog_url="itstory05"):
     
     driver.execute_script("""
         const cm = document.querySelector('.CodeMirror.cm-s-tistory-markdown').CodeMirror;
-        cm.setValue(arguments[0]);
         cm.refresh();
         cm.focus();
         cm.save();

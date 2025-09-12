@@ -3,7 +3,7 @@ def get_prompt(topic, summarized_context):
     return f"""
 주제: {topic}
 참고 요약: {summarized_context}
-
+ㄱ
 조건:
 - JSON 형식으로만 출력 (불필요한 설명 금지)
 - 본문은 반드시 3000자 이상, 마크다운 형식

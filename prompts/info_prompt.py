@@ -17,7 +17,7 @@ def get_prompt(topic, summarized_context):
                 - 마지막은 간단히 요약 후 질문형으로 마무리\\n
                 - SEO 키워드 6~10회 자연스럽게 반복",
     "tags": [
-        "주제와 직접 관련된 SEO 키워드 10개"
+        "주제와 직접 관련된 SEO 키워드 15개"
     ]
     }}
     """
